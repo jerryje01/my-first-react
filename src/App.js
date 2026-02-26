@@ -1,13 +1,14 @@
-import StatusCard from "./StatusCard.js";
+import { useState } from "react";
 
 function App() {
+  const [count, setCount] = useState(0);
+
   return (
     <div>
-      <StatusCard
-        username="Alex"
-        emoji="🧑"
-        text="Just had the best coffee of my life ☕"
-      />
+      <h1>{count}</h1>
+      <button onClick={() => setCount(count + 1)}>
+        Click me
+      </button>
     </div>
   );
 }

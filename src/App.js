@@ -1,8 +1,13 @@
+import StatusCard from "./StatusCard.js";
+
 function App() {
   return (
     <div>
-      <h1>Hello Jerry!</h1>
-      <p>My first React app 🎉</p>
+      <StatusCard
+        username="Alex"
+        emoji="🧑"
+        text="Just had the best coffee of my life ☕"
+      />
     </div>
   );
 }

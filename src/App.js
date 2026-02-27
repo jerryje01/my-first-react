@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import { db } from "./firebase";
+import { collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
 import StatusCard from "./StatusCard";
 import Navbar from "./Navbar";
 import Home from "./Home";
@@ -15,17 +17,34 @@ const allStatuses = [
 ];
 
 function Feed() {
-  const [posts, setPosts] = useState([allStatuses[0]]);
+  const [posts, setPosts] = useState([]);
 
+  // Load posts from Firebase when page opens
   useEffect(() => {
-    document.title = `Status Feed 📱 (${posts.length} posts)`;
-  }, [posts]);
+    const unsubscribe = onSnapshot(collection(db, "posts"), (snapshot) => {
+      const loadedPosts = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setPosts(loadedPosts);
+    });
 
-  function addRandomPost() {
-    const remaining = allStatuses.filter(s => !posts.find(p => p.id === s.id));
+    return () => unsubscribe();
+  }, []);
+
+  // Add random post to Firebase
+  async function addRandomPost() {
+    const remaining = allStatuses.filter(s => !posts.find(p => p.username === s.username));
     if (remaining.length === 0) return;
     const random = remaining[Math.floor(Math.random() * remaining.length)];
-    setPosts([random, ...posts]);
+    
+    await addDoc(collection(db, "posts"), {
+      username: random.username,
+      emoji: random.emoji,
+      color: random.color,
+      text: random.text,
+      timestamp: new Date()
+    });
   }
 
   return (

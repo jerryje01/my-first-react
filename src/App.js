@@ -1,5 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import StatusCard from "./StatusCard";
+import Navbar from "./Navbar";
+import Home from "./Home";
+import Profile from "./Profile";
+import Settings from "./Settings";
 
 const allStatuses = [
   { id: 1, username: "Alex", emoji: "🧑", color: "#e74c3c", text: "Just had the best coffee of my life ☕" },
@@ -9,8 +14,12 @@ const allStatuses = [
   { id: 5, username: "James", emoji: "🧔", color: "#1abc9c", text: "Cooked dinner from scratch. Only slightly burnt 🔥" },
 ];
 
-function App() {
+function Feed() {
   const [posts, setPosts] = useState([allStatuses[0]]);
+
+  useEffect(() => {
+    document.title = `Status Feed 📱 (${posts.length} posts)`;
+  }, [posts]);
 
   function addRandomPost() {
     const remaining = allStatuses.filter(s => !posts.find(p => p.id === s.id));
@@ -24,11 +33,20 @@ function App() {
       <h1 style={{
         textAlign: "center",
         color: "white",
-        marginBottom: "25px",
+        marginBottom: "10px",
         fontSize: "24px"
       }}>
         📱 Status Feed
       </h1>
+
+      <p style={{
+        textAlign: "center",
+        color: "rgba(255,255,255,0.7)",
+        marginBottom: "20px",
+        fontSize: "14px"
+      }}>
+        {posts.length} {posts.length === 1 ? "post" : "posts"} in your feed
+      </p>
 
       <button
         onClick={addRandomPost}
@@ -59,6 +77,20 @@ function App() {
         />
       ))}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Feed />} />
+        <Route path="/feed" element={<Feed />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
+      </Routes>
+    </>
   );
 }
 

@@ -1,10 +1,17 @@
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase";
 
 function Navbar() {
+  function handleLogout() {
+    signOut(auth);
+  }
+
   return (
     <nav style={{
       display: "flex",
       justifyContent: "center",
+      alignItems: "center",
       gap: "20px",
       padding: "15px",
       backgroundColor: "rgba(255,255,255,0.15)",
@@ -50,6 +57,21 @@ function Navbar() {
       }}>
         🧪 Test
       </Link>
+      <button
+        onClick={handleLogout}
+        style={{
+          color: "white",
+          background: "transparent",
+          border: "1px solid rgba(255,255,255,0.6)",
+          padding: "8px 14px",
+          borderRadius: "8px",
+          fontWeight: "bold",
+          fontSize: "14px",
+          cursor: "pointer"
+        }}
+      >
+        🚪 Log out
+      </button>
     </nav>
   );
 }

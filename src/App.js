@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import { db } from "./firebase";
+import { db, auth } from "./firebase";
+import { onAuthStateChanged } from "firebase/auth";
 import { collection, addDoc, getDocs, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import StatusCard from "./StatusCard";
 import Navbar from "./Navbar";
@@ -8,6 +9,7 @@ import Home from "./Home";
 import Profile from "./Profile";
 import Settings from "./Settings";
 import Test from "./Test";
+import Login from "./Login";
 
 const allStatuses = [
   { id: 1, username: "Alex", emoji: "🧑", color: "#e74c3c", text: "Just had the best coffee of my life ☕" },
@@ -107,6 +109,19 @@ function Feed() {
 }
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
+
+  if (!user) {
+    return <Login />;
+  }
+
   return (
     <>
       <Navbar />

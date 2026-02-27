@@ -42,6 +42,14 @@ function Navbar() {
       }}>
         ⚙️ Settings
       </Link>
+      <Link to="/test" style={{
+        color: "white",
+        textDecoration: "none",
+        fontWeight: "bold",
+        fontSize: "16px"
+      }}>
+        🧪 Test
+      </Link>
     </nav>
   );
 }

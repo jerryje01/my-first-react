@@ -7,6 +7,7 @@ import Navbar from "./Navbar";
 import Home from "./Home";
 import Profile from "./Profile";
 import Settings from "./Settings";
+import Test from "./Test";
 
 const allStatuses = [
   { id: 1, username: "Alex", emoji: "🧑", color: "#e74c3c", text: "Just had the best coffee of my life ☕" },
@@ -108,6 +109,7 @@ function App() {
         <Route path="/feed" element={<Feed />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </>
   );

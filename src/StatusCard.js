@@ -14,6 +14,7 @@ function StatusCard(props) {
 
   return (
     <div style={{
+      position: "relative",
       background: "white",
       borderRadius: "15px",
       padding: "20px",
@@ -22,6 +23,32 @@ function StatusCard(props) {
       width: "90%",
       margin: "0 auto 20px auto"
     }}>
+      {props.onDelete && (
+        <button
+          onClick={() => props.onDelete(props.id)}
+          aria-label="Delete"
+          style={{
+            position: "absolute",
+            top: "12px",
+            right: "12px",
+            width: "28px",
+            height: "28px",
+            borderRadius: "50%",
+            border: "none",
+            background: "rgba(0,0,0,0.06)",
+            color: "#666",
+            fontSize: "18px",
+            lineHeight: 1,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 0
+          }}
+        >
+          ×
+        </button>
+      )}
 
       {/* User info row */}
       <div style={{

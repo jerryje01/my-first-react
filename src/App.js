@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { db } from "./firebase";
-import { collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
+import { collection, addDoc, getDocs, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import StatusCard from "./StatusCard";
 import Navbar from "./Navbar";
 import Home from "./Home";
@@ -48,6 +48,10 @@ function Feed() {
     });
   }
 
+  async function deletePost(postId) {
+    await deleteDoc(doc(db, "posts", postId));
+  }
+
   return (
     <div>
       <h1 style={{
@@ -90,10 +94,12 @@ function Feed() {
       {posts.map(post => (
         <StatusCard
           key={post.id}
+          id={post.id}
           username={post.username}
           emoji={post.emoji}
           color={post.color}
           text={post.text}
+          onDelete={deletePost}
         />
       ))}
     </div>
